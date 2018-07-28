@@ -1,6 +1,8 @@
 package com.example.pyrov.mywallpapers;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.pyrov.mywallpapers.model.HitsItem;
 import com.example.pyrov.mywallpapers.model.MyResponse;
@@ -35,6 +38,7 @@ public class SearchPageFragment extends Fragment {
     private RecyclerView recycler;
     private SwipeRefreshLayout swipeRefreshLayout;
     private SearchView searchView;
+    private TextView tvSwipeToRefresh;
 
     public static SearchPageFragment newSearchInstance(int page) {
         Bundle bundle = new Bundle();
@@ -57,35 +61,100 @@ public class SearchPageFragment extends Fragment {
         recycler = view.findViewById(R.id.recycler_search_list);
         swipeRefreshLayout = view.findViewById(R.id.swipe_search_list);
         searchView = view.findViewById(R.id.search_bar_search_list);
+        tvSwipeToRefresh = view.findViewById(R.id.tv_swipe_to_refresh);
+        tvSwipeToRefresh.setVisibility(View.INVISIBLE);
         recycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         adapter = new WallpapersListItemRecyclerAdapter(App.getContext(), list);
         recycler.setAdapter(adapter);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getDataWallpapers("");
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getDataWallpapers(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                getDataWallpapers("");
+                return false;
+            }
+        });
+
+        getDataWallpapers("");
+
         return view;
     }
 
-    private List<HitsItem> getDataWallpapers(String q) {
+    private void getDataWallpapers(String q) {
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
-            //alertMessage("No internet connection", "Check connection settings", R.drawable.ic_signal_wifi_off_blue_900_36dp);
+            alertMessage("No internet connection", "Check connection settings", R.drawable.ic_signal_wifi_off_blue_900_36dp);
         }
         App.getPixabayApi().getData(q).enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                list = response.body().getHits();
+                try {
+                    list.clear();
+                    list = response.body().getHits();
+                } catch (NullPointerException e) {
+
+                }
                 adapter.setDataChanged(list);
+                swipeRefreshLayout.setRefreshing(false);
+                if (list.isEmpty()) {
+                    tvSwipeToRefresh.setVisibility(View.VISIBLE);
+                } else {
+                    tvSwipeToRefresh.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
             public void onFailure(Call<MyResponse> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
-        return list;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    private void alertMessage(String title, String message, int icon) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(title)
+                .setMessage(message)
+                .setIcon(icon)
+                .setCancelable(false)
+                .setNegativeButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if (list.isEmpty()) {
+                                    getDataWallpapers("");
+                                }
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

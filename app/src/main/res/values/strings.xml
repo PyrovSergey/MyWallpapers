@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MyWallpapers</string>
+    <string name="set_wallpaper">Set wallpaper</string>
 
     <string-array name="tab_array">
         <item>Search</item>

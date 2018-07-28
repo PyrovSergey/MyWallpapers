@@ -29,15 +29,4 @@
         android:scaleType="centerCrop"
         tools:src="" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button_set_wallpaper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="30dp"
-        android:src="@drawable/ic_file_download_white_36dp"
-        android:visibility="invisible" />
-
 </RelativeLayout>
