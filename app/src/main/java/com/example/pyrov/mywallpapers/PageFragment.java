@@ -1,5 +1,10 @@
 package com.example.pyrov.mywallpapers;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -44,9 +49,42 @@ public class PageFragment extends Fragment {
         }
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+////        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+////        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+////        if (networkInfo == null) {
+////            alertMessage("No internet connection", "Check connection settings", R.drawable.ic_signal_wifi_off_blue_900_36dp);
+////            //mSwipeRefreshLayout.setRefreshing(false);
+////        } else {
+////
+////        }
+//    }
+
+    private void alertMessage(String title, String message, int icon) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(title)
+                .setMessage(message)
+                .setIcon(icon)
+                .setCancelable(false)
+                .setNegativeButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if (list.isEmpty()) {
+                                    list = getWallpaperList(mPage);
+                                }
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         if (list.isEmpty()) {
             list = getWallpaperList(mPage);
         }
@@ -59,6 +97,11 @@ public class PageFragment extends Fragment {
     }
 
     private List<HitsItem> getDataWallpapers(String q) {
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            alertMessage("No internet connection", "Check connection settings", R.drawable.ic_signal_wifi_off_blue_900_36dp);
+        }
         App.getPixabayApi().getData(q).enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
@@ -68,7 +111,6 @@ public class PageFragment extends Fragment {
 
             @Override
             public void onFailure(Call<MyResponse> call, Throwable t) {
-
             }
         });
         return list;
