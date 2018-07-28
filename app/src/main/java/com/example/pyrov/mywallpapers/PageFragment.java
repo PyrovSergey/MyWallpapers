@@ -10,13 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pyrov.mywallpapers.model.HitsItem;
-import com.example.pyrov.mywallpapers.model.Response;
+import com.example.pyrov.mywallpapers.model.MyResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class PageFragment extends Fragment {
 
@@ -57,15 +59,15 @@ public class PageFragment extends Fragment {
     }
 
     private List<HitsItem> getDataWallpapers(String q) {
-        App.getPixabayApi().getData(q).enqueue(new Callback<Response>() {
+        App.getPixabayApi().getData(q).enqueue(new Callback<MyResponse>() {
             @Override
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                 list = response.body().getHits();
                 adapter.setDataChanged(list);
             }
 
             @Override
-            public void onFailure(Call<Response> call, Throwable t) {
+            public void onFailure(Call<MyResponse> call, Throwable t) {
 
             }
         });
