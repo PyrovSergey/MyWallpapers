@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
-    private final int PAGE_COUNT = 6;
+    private final int PAGE_COUNT = 7;
 
     public SampleFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -18,6 +18,9 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        if (position == 0) {
+            return SearchPageFragment.newSearchInstance(position);
+        }
         return PageFragment.newInstance(position + 1);
     }
 

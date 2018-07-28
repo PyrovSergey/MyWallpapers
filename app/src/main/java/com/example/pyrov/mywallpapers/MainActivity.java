@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         ViewPager viewPager = findViewById(R.id.viewpager);
+        viewPager.setOffscreenPageLimit(7);
         viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager()));
 
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);

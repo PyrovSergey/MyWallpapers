@@ -49,19 +49,6 @@ public class PageFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-////        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-////        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-////        if (networkInfo == null) {
-////            alertMessage("No internet connection", "Check connection settings", R.drawable.ic_signal_wifi_off_blue_900_36dp);
-////            //mSwipeRefreshLayout.setRefreshing(false);
-////        } else {
-////
-////        }
-//    }
-
     private void alertMessage(String title, String message, int icon) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(title)
@@ -118,23 +105,23 @@ public class PageFragment extends Fragment {
 
 
     private List<HitsItem> getWallpaperList(int mPage) {
-        if (mPage == 1) {
+        if (mPage == 2) {
             return getDataWallpapers("textured");
         }
-        if (mPage == 2) {
+        if (mPage == 3) {
             return getDataWallpapers("nature");
         }
-        if (mPage == 3) {
+        if (mPage == 4) {
             return getDataWallpapers("animal");
         }
-        if (mPage == 4) {
+        if (mPage == 5) {
             return getDataWallpapers("car");
         }
-        if (mPage == 5) {
+        if (mPage == 6) {
             return getDataWallpapers("city");
         }
-        if (mPage == 6) {
-            return getDataWallpapers("");
+        if (mPage == 7) {
+            return getDataWallpapers("girls");
         }
         return null;
     }

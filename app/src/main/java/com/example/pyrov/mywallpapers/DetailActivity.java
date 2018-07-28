@@ -34,12 +34,12 @@ public class DetailActivity extends AppCompatActivity {
 
     @BindView(R.id.single_image)
     ImageView singleImage;
-    @BindView(R.id.progress_bar_detail)
-    ProgressBar progressBarDetail;
     @BindView(R.id.button_set_wallpaper)
     FloatingActionButton buttonSetWallpaper;
     @BindView(R.id.no_wifi_image)
     ImageView noWifiImage;
+    @BindView(R.id.progress_bar_detail)
+    ProgressBar progressBarDetail;
 
     private WallpaperManager wallpaperManager;
     private Bitmap bitmap1, bitmap2;

@@ -48,7 +48,7 @@ public class WallpapersListItemRecyclerAdapter extends RecyclerView.Adapter<Wall
         final HitsItem wallpaper = wallpapers.get(position);
         holder.bindWallpaperItem(wallpaper);
         holder.progressBar.setVisibility(View.VISIBLE);
-        Glide.with(context).load(wallpaper.getPreviewURL()).thumbnail(0.10f)
+        Glide.with(context).load(wallpaper.getPreviewURL()).thumbnail(0.01f)
                 //.apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.DATA))
                 .listener(new RequestListener<Drawable>() {
                     @Override
