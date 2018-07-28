@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MyWallpapers</string>
+
+    <string-array name="tab_array">
+        <item>Texture</item>
+        <item>Nature</item>
+        <item>Animals</item>
+        <item>Cars</item>
+        <item>City</item>
+        <item>Random</item>
+    </string-array>
 </resources>
