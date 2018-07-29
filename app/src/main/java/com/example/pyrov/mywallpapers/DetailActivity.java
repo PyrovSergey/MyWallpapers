@@ -132,7 +132,7 @@ public class DetailActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return true;
+                //return true;
             }
         }
         return super.onOptionsItemSelected(item);
