@@ -35,6 +35,7 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
 
+    public static final String KEY = "com.example.pyrov.mywallpapers_key";
     @BindView(R.id.single_image)
     ImageView singleImage;
     @BindView(R.id.no_wifi_image)
@@ -59,7 +60,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
-        Glide.with(this).load(getIntent().getStringExtra("key")).thumbnail(0.10f)
+        Glide.with(this).load(getIntent().getStringExtra(KEY)).thumbnail(0.10f)
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -77,7 +78,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public static void startDetailActivity(Context context, String url) {
         Intent intent = new Intent(context, DetailActivity.class);
-        intent.putExtra("key", url);
+        intent.putExtra(KEY, url);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
@@ -97,7 +98,6 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -111,16 +111,16 @@ public class DetailActivity extends AppCompatActivity {
 
     private void setWallpaperAlertMessage() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Install this wallpaper?")
+        builder.setTitle(R.string.alert_message_install_this_wallpaper)
                 .setCancelable(false)
-                .setPositiveButton("Ok",
+                .setPositiveButton(getString(R.string.alert_message_ok),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                                 setWallpaper();
                             }
                         })
-                .setNegativeButton("Cancel",
+                .setNegativeButton(getString(R.string.alert_message_cancel),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -145,7 +145,7 @@ public class DetailActivity extends AppCompatActivity {
         try {
             wallpaperManager.setBitmap(bitmap);
             wallpaperManager.suggestDesiredDimensions(width, height);
-            makeToast("Wallpapers changed");
+            makeToast(getString(R.string.wallpapers_changed));
 
         } catch (IOException e) {
             e.printStackTrace();

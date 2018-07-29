@@ -2,11 +2,25 @@
     <string name="app_name">MyWallpapers</string>
     <string name="set_wallpaper">Set wallpaper</string>
 
-    <string name="settings">Settings</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="texture_request">textured</string>
+    <string name="nature_request">nature</string>
+    <string name="animal_request">animal</string>
+    <string name="car_request">car</string>
+    <string name="city_request">city</string>
+    <string name="universe_request">universe</string>
+    <string name="wallpapers_changed">Wallpapers changed</string>
+    <string name="alert_message_install_this_wallpaper">Install this wallpaper?</string>
+    <string name="alert_message_ok">OK</string>
+    <string name="alert_message_cancel">Cancel</string>
 
-    <string name="settings_list_size_wallpapers">List size</string>
+    <string name="settings">Settings</string>
+    <string name="settings_title">Wallpapers Settings</string>
+    <string name="check_connection_settings">Check connection settings</string>
+
+    <string name="settings_list_size_wallpapers">List size (3/200)</string>
     <string name="settings_list_size_key" translatable="false">page_size_key</string>
-    <string name="settings_list_size_default" translatable="false">50</string>
+    <string name="settings_list_size_default" translatable="false">25</string>
 
 
     <string name="settings_orientation">Show images only</string>
@@ -41,5 +55,6 @@
 
     <string name="settings_false_label">False</string>
     <string name="settings_false_value" translatable="false">false</string>
+    <string name="swipe_to_refresh">Swipe to refresh</string>
 
 </resources>

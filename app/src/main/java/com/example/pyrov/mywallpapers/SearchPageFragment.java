@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -33,13 +34,10 @@ import retrofit2.Response;
 public class SearchPageFragment extends Fragment {
 
     public static final String ARG_PAGE = "ARG_PAGE";
-    Unbinder unbinder;
     private int mPage;
     private WallpapersListItemRecyclerAdapter adapter;
     private List<HitsItem> list;
-    private RecyclerView recycler;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private SearchView searchView;
     private TextView tvSwipeToRefresh;
 
     public static SearchPageFragment newSearchInstance(int page) {
@@ -56,15 +54,14 @@ public class SearchPageFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_list, null);
         list = new ArrayList<>();
-        recycler = view.findViewById(R.id.recycler_search_list);
+        RecyclerView recycler = view.findViewById(R.id.recycler_search_list);
         swipeRefreshLayout = view.findViewById(R.id.swipe_search_list);
-        searchView = view.findViewById(R.id.search_bar_search_list);
+        SearchView searchView = view.findViewById(R.id.search_bar_search_list);
         tvSwipeToRefresh = view.findViewById(R.id.tv_swipe_to_refresh);
-        //tvSwipeToRefresh.setVisibility(View.INVISIBLE);
         recycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         adapter = new WallpapersListItemRecyclerAdapter(App.getContext(), list);
         recycler.setAdapter(adapter);
@@ -108,7 +105,7 @@ public class SearchPageFragment extends Fragment {
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
-            alertMessage("No internet connection", "Check connection settings", R.drawable.ic_signal_wifi_off_blue_900_36dp);
+            alertMessage(getString(R.string.no_internet_connection), getString(R.string.check_connection_settings), R.drawable.ic_signal_wifi_off_blue_900_36dp);
         }
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -134,7 +131,7 @@ public class SearchPageFragment extends Fragment {
         tvSwipeToRefresh.setVisibility(View.INVISIBLE);
         App.getPixabayApi().getData(q, orderBy, orientation, safeSearch, listSizeWallpapers).enqueue(new Callback<MyResponse>() {
             @Override
-            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+            public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
                 try {
                     list.clear();
                     list = response.body().getHits();
@@ -151,7 +148,7 @@ public class SearchPageFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<MyResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
                 tvSwipeToRefresh.setVisibility(View.VISIBLE);
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -164,7 +161,7 @@ public class SearchPageFragment extends Fragment {
                 .setMessage(message)
                 .setIcon(icon)
                 .setCancelable(false)
-                .setNegativeButton("Ok",
+                .setNegativeButton(getString(R.string.alert_message_ok),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (list.isEmpty()) {

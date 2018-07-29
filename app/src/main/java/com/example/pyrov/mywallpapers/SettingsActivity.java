@@ -28,8 +28,8 @@ public class SettingsActivity extends AppCompatActivity {
             Preference listOrientation = findPreference(getString(R.string.settings_orientation_key));
             bindPreferenceSummaryToValue(listOrientation);
 
-            Preference orderby = findPreference(getString(R.string.settings_order_key));
-            bindPreferenceSummaryToValue(orderby);
+            Preference orderBy = findPreference(getString(R.string.settings_order_key));
+            bindPreferenceSummaryToValue(orderBy);
 
             Preference safeSearch = findPreference(getString(R.string.settings_safe_search_key));
             bindPreferenceSummaryToValue(safeSearch);

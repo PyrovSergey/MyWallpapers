@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -29,7 +30,7 @@ import retrofit2.Response;
 
 public class PageFragment extends Fragment {
 
-    public static final String ARG_PAGE = "ARG_PAGE";
+    private static final String ARG_PAGE = "ARG_PAGE";
     private int mPage;
     private WallpapersListItemRecyclerAdapter adapter;
     private List<HitsItem> list;
@@ -57,7 +58,7 @@ public class PageFragment extends Fragment {
                 .setMessage(message)
                 .setIcon(icon)
                 .setCancelable(false)
-                .setNegativeButton("Ok",
+                .setNegativeButton(getString(R.string.alert_message_ok),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (list.isEmpty()) {
@@ -71,7 +72,7 @@ public class PageFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         if (list.isEmpty()) {
@@ -89,7 +90,7 @@ public class PageFragment extends Fragment {
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
-            alertMessage("No internet connection", "Check connection settings", R.drawable.ic_signal_wifi_off_blue_900_36dp);
+            alertMessage(getString(R.string.no_internet_connection), getString(R.string.check_connection_settings), R.drawable.ic_signal_wifi_off_blue_900_36dp);
         }
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
@@ -113,7 +114,7 @@ public class PageFragment extends Fragment {
 
         App.getPixabayApi().getData(q, orderBy, orientation, safeSearch, listSizeWallpapers).enqueue(new Callback<MyResponse>() {
             @Override
-            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+            public void onResponse(@NonNull Call<MyResponse> call, @NonNull Response<MyResponse> response) {
                 try {
                     list = response.body().getHits();
                 } catch (NullPointerException e) {
@@ -123,31 +124,30 @@ public class PageFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<MyResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
             }
         });
         return list;
     }
 
-
     private List<HitsItem> getWallpaperList(int mPage) {
         if (mPage == 2) {
-            return getDataWallpapers("textured");
+            return getDataWallpapers(getString(R.string.texture_request));
         }
         if (mPage == 3) {
-            return getDataWallpapers("nature");
+            return getDataWallpapers(getString(R.string.nature_request));
         }
         if (mPage == 4) {
-            return getDataWallpapers("animal");
+            return getDataWallpapers(getString(R.string.animal_request));
         }
         if (mPage == 5) {
-            return getDataWallpapers("car");
+            return getDataWallpapers(getString(R.string.car_request));
         }
         if (mPage == 6) {
-            return getDataWallpapers("city");
+            return getDataWallpapers(getString(R.string.city_request));
         }
         if (mPage == 7) {
-            return getDataWallpapers("universe");
+            return getDataWallpapers(getString(R.string.universe_request));
         }
         return null;
     }

@@ -27,11 +27,12 @@
         <activity
             android:name=".DetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SettingsActivity">
+        <activity android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/settings_title">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.pyrov.mywallpapers.MainActivity" />
         </activity>
     </application>
-
 </manifest>

@@ -42,14 +42,12 @@ public class WallpapersListItemRecyclerAdapter extends RecyclerView.Adapter<Wall
         return new ViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final HitsItem wallpaper = wallpapers.get(position);
         holder.bindWallpaperItem(wallpaper);
         holder.progressBar.setVisibility(View.VISIBLE);
         Glide.with(context).load(wallpaper.getPreviewURL()).thumbnail(0.01f)
-                //.apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.DATA))
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
