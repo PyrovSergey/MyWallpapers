@@ -1,8 +1,9 @@
 package com.example.pyrov.mywallpapers;
 
-import android.app.SearchManager;
+import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,10 +12,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +32,6 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -42,12 +41,6 @@ public class DetailActivity extends AppCompatActivity {
     ImageView noWifiImage;
     @BindView(R.id.progress_bar_detail)
     ProgressBar progressBarDetail;
-
-    private WallpaperManager wallpaperManager;
-    private Bitmap bitmap1, bitmap2;
-    private DisplayMetrics displayMetrics;
-    private int width, height;
-    private BitmapDrawable bitmapDrawable;
 
     @Override
     protected void onResume() {
@@ -65,8 +58,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
-
-        wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
 
         Glide.with(this).load(getIntent().getStringExtra("key")).thumbnail(0.10f)
                 .listener(new RequestListener<Drawable>() {
@@ -91,21 +82,13 @@ public class DetailActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    private void GetScreenWidthHeight() {
-
-        displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        width = displayMetrics.widthPixels;
-        height = displayMetrics.heightPixels;
-
-    }
-
-    private void SetBitmapSize() {
-        bitmap2 = Bitmap.createScaledBitmap(bitmap1, width, height, true);
-    }
 
     private void makeToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(getApplicationContext(),
+                message,
+                Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     @Override
@@ -114,27 +97,58 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
         if (progressBarDetail.getVisibility() == View.INVISIBLE) {
-            int id = item.getItemId();
             if (id == R.id.button_set_wallpaper) {
-                bitmapDrawable = (BitmapDrawable) singleImage.getDrawable();
-                bitmap1 = bitmapDrawable.getBitmap();
-                GetScreenWidthHeight();
-                SetBitmapSize();
-                wallpaperManager = WallpaperManager.getInstance(DetailActivity.this);
-
-                try {
-                    wallpaperManager.setBitmap(bitmap2);
-                    wallpaperManager.suggestDesiredDimensions(width, height);
-                    makeToast("Wallpapers changed");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                //return true;
+                setWallpaperAlertMessage();
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setWallpaperAlertMessage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Install this wallpaper?")
+                .setCancelable(false)
+                .setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                setWallpaper();
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void setWallpaper() {
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) singleImage.getDrawable();
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int height = metrics.heightPixels;
+        int width = metrics.widthPixels;
+
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
+        try {
+            wallpaperManager.setBitmap(bitmap);
+            wallpaperManager.suggestDesiredDimensions(width, height);
+            makeToast("Wallpapers changed");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
