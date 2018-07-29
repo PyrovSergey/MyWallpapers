@@ -20,6 +20,6 @@
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         android:scaleType="centerCrop"
-        tools:src="" />
+        tools:src="@drawable/cat" />
 
 </RelativeLayout>
