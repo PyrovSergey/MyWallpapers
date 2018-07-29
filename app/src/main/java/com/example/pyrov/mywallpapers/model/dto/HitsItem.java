@@ -1,4 +1,4 @@
-package com.example.pyrov.mywallpapers.model;
+package com.example.pyrov.mywallpapers.model.dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.pyrov.mywallpapers.model.app.App;
+
 public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
     private final int PAGE_COUNT = 7;
 

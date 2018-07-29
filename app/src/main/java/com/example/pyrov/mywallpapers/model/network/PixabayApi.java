@@ -1,4 +1,6 @@
-package com.example.pyrov.mywallpapers.model;
+package com.example.pyrov.mywallpapers.model.network;
+
+import com.example.pyrov.mywallpapers.model.dto.MyResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,9 +1,9 @@
-package com.example.pyrov.mywallpapers;
+package com.example.pyrov.mywallpapers.model.app;
 
 import android.app.Application;
 import android.content.Context;
 
-import com.example.pyrov.mywallpapers.model.PixabayApi;
+import com.example.pyrov.mywallpapers.model.network.PixabayApi;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

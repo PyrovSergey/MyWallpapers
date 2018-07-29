@@ -20,13 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.pyrov.mywallpapers.model.HitsItem;
-import com.example.pyrov.mywallpapers.model.MyResponse;
+import com.example.pyrov.mywallpapers.model.app.App;
+import com.example.pyrov.mywallpapers.model.dto.HitsItem;
+import com.example.pyrov.mywallpapers.model.dto.MyResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

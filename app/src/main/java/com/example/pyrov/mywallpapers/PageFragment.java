@@ -17,8 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pyrov.mywallpapers.model.HitsItem;
-import com.example.pyrov.mywallpapers.model.MyResponse;
+import com.example.pyrov.mywallpapers.model.app.App;
+import com.example.pyrov.mywallpapers.model.dto.HitsItem;
+import com.example.pyrov.mywallpapers.model.dto.MyResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class PageFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (list.isEmpty()) {
-                                    list = getWallpaperList(mPage);
+                                    getWallpaperList(mPage);
                                 }
                                 dialog.cancel();
                             }
@@ -76,7 +77,7 @@ public class PageFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         if (list.isEmpty()) {
-            list = getWallpaperList(mPage);
+            getWallpaperList(mPage);
         }
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.wallpapers_list, container, false);
         recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 3));
@@ -86,7 +87,7 @@ public class PageFragment extends Fragment {
         return recyclerView;
     }
 
-    private List<HitsItem> getDataWallpapers(String q) {
+    private void getDataWallpapers(String q) {
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
@@ -104,7 +105,6 @@ public class PageFragment extends Fragment {
         } catch (NumberFormatException e) {
             tmpSize = Integer.parseInt(getString(R.string.settings_list_size_default));
         }
-
         if (tmpSize < 3) {
             tmpSize = 3;
         } else if (tmpSize > 200) {
@@ -127,28 +127,28 @@ public class PageFragment extends Fragment {
             public void onFailure(@NonNull Call<MyResponse> call, @NonNull Throwable t) {
             }
         });
-        return list;
     }
 
-    private List<HitsItem> getWallpaperList(int mPage) {
-        if (mPage == 2) {
-            return getDataWallpapers(getString(R.string.texture_request));
+    private void getWallpaperList(int mPage) {
+        switch (mPage) {
+            case 2:
+                getDataWallpapers(getString(R.string.texture_request));
+                break;
+            case 3:
+                getDataWallpapers(getString(R.string.nature_request));
+                break;
+            case 4:
+                getDataWallpapers(getString(R.string.animal_request));
+                break;
+            case 5:
+                getDataWallpapers(getString(R.string.car_request));
+                break;
+            case 6:
+                getDataWallpapers(getString(R.string.city_request));
+                break;
+            case 7:
+                getDataWallpapers(getString(R.string.universe_request));
+                break;
         }
-        if (mPage == 3) {
-            return getDataWallpapers(getString(R.string.nature_request));
-        }
-        if (mPage == 4) {
-            return getDataWallpapers(getString(R.string.animal_request));
-        }
-        if (mPage == 5) {
-            return getDataWallpapers(getString(R.string.car_request));
-        }
-        if (mPage == 6) {
-            return getDataWallpapers(getString(R.string.city_request));
-        }
-        if (mPage == 7) {
-            return getDataWallpapers(getString(R.string.universe_request));
-        }
-        return null;
     }
 }
