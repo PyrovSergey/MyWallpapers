@@ -3,9 +3,11 @@ package com.example.pyrov.mywallpapers;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -62,7 +64,7 @@ public class SearchPageFragment extends Fragment {
         swipeRefreshLayout = view.findViewById(R.id.swipe_search_list);
         searchView = view.findViewById(R.id.search_bar_search_list);
         tvSwipeToRefresh = view.findViewById(R.id.tv_swipe_to_refresh);
-        tvSwipeToRefresh.setVisibility(View.INVISIBLE);
+        //tvSwipeToRefresh.setVisibility(View.INVISIBLE);
         recycler.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         adapter = new WallpapersListItemRecyclerAdapter(App.getContext(), list);
         recycler.setAdapter(adapter);
@@ -108,14 +110,36 @@ public class SearchPageFragment extends Fragment {
         if (networkInfo == null) {
             alertMessage("No internet connection", "Check connection settings", R.drawable.ic_signal_wifi_off_blue_900_36dp);
         }
-        App.getPixabayApi().getData(q).enqueue(new Callback<MyResponse>() {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        String orderBy = sharedPreferences.getString(getString(R.string.settings_order_key), getString(R.string.settings_popular_default));
+        String orientation = sharedPreferences.getString(getString(R.string.settings_orientation_key), getString(R.string.settings_orientation_default));
+        String safeSearch = sharedPreferences.getString(getString(R.string.settings_safe_search_key), getString(R.string.settings_orientation_default));
+        String listSizeWallpapers = sharedPreferences.getString(getString(R.string.settings_list_size_key), getString(R.string.settings_list_size_default));
+        int tmpSize;
+        try {
+            tmpSize = Integer.parseInt(listSizeWallpapers);
+        } catch (NumberFormatException e) {
+            tmpSize = Integer.parseInt(getString(R.string.settings_list_size_default));
+        }
+
+        if (tmpSize < 3) {
+            tmpSize = 3;
+        } else if (tmpSize > 200) {
+            tmpSize = 200;
+        }
+        listSizeWallpapers = String.valueOf(tmpSize);
+
+        tvSwipeToRefresh.setVisibility(View.INVISIBLE);
+        App.getPixabayApi().getData(q, orderBy, orientation, safeSearch, listSizeWallpapers).enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                 try {
                     list.clear();
                     list = response.body().getHits();
                 } catch (NullPointerException e) {
-
+                    tvSwipeToRefresh.setVisibility(View.VISIBLE);
                 }
                 adapter.setDataChanged(list);
                 swipeRefreshLayout.setRefreshing(false);
@@ -128,6 +152,7 @@ public class SearchPageFragment extends Fragment {
 
             @Override
             public void onFailure(Call<MyResponse> call, Throwable t) {
+                tvSwipeToRefresh.setVisibility(View.VISIBLE);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="tab_array">
+        <item>Search</item>
+        <item>Texture</item>
+        <item>Nature</item>
+        <item>Animals</item>
+        <item>Cars</item>
+        <item>City</item>
+        <item>Universe</item>
+    </string-array>
+
+    <string-array name="settings_orientation_labels">
+        <item>@string/settings_order_by_all_label</item>
+        <item>@string/settings_order_by_horizontal_label</item>
+        <item>@string/settings_order_by_vertical_label</item>
+    </string-array>
+
+    <string-array name="settings_orientation_values">
+        <item>@string/settings_order_by_all_value</item>
+        <item>@string/settings_order_by_horizontal_value</item>
+        <item>@string/settings_order_by_vertical_value</item>
+    </string-array>
+
+    <string-array name="settings_order_by_labels">
+        <item>@string/settings_popular_label</item>
+        <item>@string/settings_latest_label</item>
+    </string-array>
+
+    <string-array name="settings_order_by_values">
+        <item>@string/settings_popular_value</item>
+        <item>@string/settings_latest_value</item>
+    </string-array>
+
+    <string-array name="settings_safe_search_labels">
+        <item>@string/settings_true_label</item>
+        <item>@string/settings_false_label</item>
+    </string-array>
+
+    <string-array name="settings_safe_search_values">
+        <item>@string/settings_true_value</item>
+        <item>@string/settings_false_value</item>
+    </string-array>
+
+</resources>

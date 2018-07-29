@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="@string/settings_list_size_default"
+        android:inputType="numberDecimal"
+        android:key="@string/settings_list_size_key"
+        android:selectAllOnFocus="true"
+        android:title="@string/settings_list_size_wallpapers" />
+
+    <ListPreference
+        android:defaultValue="@string/settings_orientation_default"
+        android:entries="@array/settings_orientation_labels"
+        android:entryValues="@array/settings_orientation_values"
+        android:key="@string/settings_orientation_key"
+        android:title="@string/settings_orientation" />
+
+    <ListPreference
+        android:defaultValue="@string/settings_popular_default"
+        android:entries="@array/settings_order_by_labels"
+        android:entryValues="@array/settings_order_by_values"
+        android:key="@string/settings_order_key"
+        android:title="@string/settings_order_by" />
+
+    <ListPreference
+        android:defaultValue="@string/settings_safe_search_default"
+        android:entries="@array/settings_safe_search_labels"
+        android:entryValues="@array/settings_safe_search_values"
+        android:key="@string/settings_safe_search_key"
+        android:title="@string/settings_safe_search" />
+
+</PreferenceScreen>

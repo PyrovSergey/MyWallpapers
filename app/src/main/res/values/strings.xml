@@ -2,13 +2,44 @@
     <string name="app_name">MyWallpapers</string>
     <string name="set_wallpaper">Set wallpaper</string>
 
-    <string-array name="tab_array">
-        <item>Search</item>
-        <item>Texture</item>
-        <item>Nature</item>
-        <item>Animals</item>
-        <item>Cars</item>
-        <item>City</item>
-        <item>Girls</item>
-    </string-array>
+    <string name="settings">Settings</string>
+
+    <string name="settings_list_size_wallpapers">List size</string>
+    <string name="settings_list_size_key" translatable="false">page_size_key</string>
+    <string name="settings_list_size_default" translatable="false">50</string>
+
+
+    <string name="settings_orientation">Show images only</string>
+    <string name="settings_orientation_key" translatable="false">orientation_key</string>
+    <string name="settings_orientation_default" translatable="false">vertical</string>
+
+    <string name="settings_order_by_all_label">All</string>
+    <string name="settings_order_by_all_value" translatable="false">all</string>
+
+    <string name="settings_order_by_horizontal_label">Horizontal</string>
+    <string name="settings_order_by_horizontal_value" translatable="false">horizontal</string>
+
+    <string name="settings_order_by_vertical_label">Vertical</string>
+    <string name="settings_order_by_vertical_value" translatable="false">vertical</string>
+
+    <string name="settings_order_by">Order by</string>
+    <string name="settings_order_key" translatable="false">order_key</string>
+    <string name="settings_popular_default" translatable="false">popular</string>
+
+    <string name="settings_popular_label">Popular</string>
+    <string name="settings_popular_value" translatable="false">popular</string>
+
+    <string name="settings_latest_label">Latest</string>
+    <string name="settings_latest_value" translatable="false">latest</string>
+
+    <string name="settings_safe_search">Safe search</string>
+    <string name="settings_safe_search_key" translatable="false">safe_search_key</string>
+    <string name="settings_safe_search_default" translatable="false">true</string>
+
+    <string name="settings_true_label">True</string>
+    <string name="settings_true_value" translatable="false">true</string>
+
+    <string name="settings_false_label">False</string>
+    <string name="settings_false_value" translatable="false">false</string>
+
 </resources>
